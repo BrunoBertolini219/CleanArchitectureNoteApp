@@ -6,6 +6,7 @@ import com.plcoding.cleanarchitecturenoteapp.feature_note.data.data_source.NoteD
 import com.plcoding.cleanarchitecturenoteapp.feature_note.data.data_source.NoteDatabase.Companion.DATABASE_NAME
 import com.plcoding.cleanarchitecturenoteapp.feature_note.data.repository.NoteRepositoryImpl
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.repository.NoteRepository
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.usecase.AddNote
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.usecase.DeleteNote
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.usecase.GetNotes
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.usecase.NoteUseCases
@@ -40,7 +41,8 @@ object NoteModule {
     fun provideNoteUseCase(repository: NoteRepository): NoteUseCases{
         return NoteUseCases(
             getNotes = GetNotes(repository),
-            deleteNote = DeleteNote(repository)
+            deleteNote = DeleteNote(repository),
+            addNote = AddNote(repository)
         )
     }
 
