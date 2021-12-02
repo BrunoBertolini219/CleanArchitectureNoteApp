@@ -97,9 +97,7 @@ fun AddEditNoteScreen(
                                 width = 3.dp,
                                 color = if (viewModel.noteColor.value == colorInt) {
                                     Color.Black
-                                } else {
-                                    Color.Transparent
-                                },
+                                } else Color.Transparent,
                                 shape = CircleShape
                             )
                             .clickable {
@@ -141,7 +139,6 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                 },
                 isHintVisible = contentState.isHintVisible,
-                singleLine = true,
                 textStyle = MaterialTheme.typography.body1,
                 modifier = Modifier.fillMaxHeight()
             )

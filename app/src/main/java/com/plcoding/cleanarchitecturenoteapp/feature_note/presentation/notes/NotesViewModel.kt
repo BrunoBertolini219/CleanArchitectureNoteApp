@@ -9,6 +9,7 @@ import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.usecase.NoteUse
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.util.NoteOrder
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +24,7 @@ class NotesViewModel @Inject constructor(
     private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
 
-    private var recentryDeletedNote: Note? = null
+    private var recentlyDeletedNote: Note? = null
 
     private var getNotesJob: Job? = null
 
@@ -43,13 +44,13 @@ class NotesViewModel @Inject constructor(
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
                     noteUseCases.deleteNote(event.note)
-                    recentryDeletedNote = event.note
+                    recentlyDeletedNote = event.note
                 }
             }
             is NotesEvent.RestoreNote -> {
-                viewModelScope.launch {
-                    noteUseCases.addNote(recentryDeletedNote ?: return@launch)
-                    recentryDeletedNote = null
+                viewModelScope.launch(Dispatchers.IO) {
+                    noteUseCases.addNote(recentlyDeletedNote ?: return@launch)
+                    recentlyDeletedNote = null
                 }
             }
             is NotesEvent.ToggleOrderSection -> {
